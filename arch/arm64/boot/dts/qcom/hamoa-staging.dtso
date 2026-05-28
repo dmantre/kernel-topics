@@ -9,6 +9,7 @@
 /plugin/;
 
 #include <dt-bindings/thermal/thermal.h>
+#include <dt-bindings/interrupt-controller/irq.h>
 
 &soc {
 	tgu@10b0e000 {
@@ -112,6 +113,17 @@
 			trip = <&nsp3_alert0>;
 			cooling-device = <&cdsp_tmd0 THERMAL_NO_LIMIT THERMAL_NO_LIMIT>;
 		};
+	};
+};
+
+&pm8550 {
+	sensor@4700 {
+		compatible = "qcom,pm8550-bc0l", "qcom,bcl-v3-core";
+		reg = <0x4700>;
+		interrupts = <0x1 0x47 0x0 IRQ_TYPE_EDGE_RISING>,
+			     <0x1 0x47 0x1 IRQ_TYPE_EDGE_RISING>;
+		interrupt-names = "bcl-max-min",
+				  "bcl-critical";
 	};
 };
 
